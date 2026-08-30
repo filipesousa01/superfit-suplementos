@@ -92,6 +92,7 @@ const Cart = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={toggleCart}
+            className="cart-overlay"
             style={{
               position: 'fixed',
               inset: 0,

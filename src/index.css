@@ -208,7 +208,6 @@ body::before {
     height: 280px !important;
   }
 
-  /* Catálogo: botões de filtro menores e scrolláveis */
   .catalog-filters {
     flex-wrap: nowrap !important;
     overflow-x: auto;
@@ -216,6 +215,11 @@ body::before {
     scrollbar-width: none;
     padding-bottom: 0.5rem;
     justify-content: flex-start !important;
+  }
+
+  /* Overlay do carrinho mais escuro no mobile para destacar o form */
+  .cart-overlay {
+    background-color: rgba(0,0,0,0.85) !important;
   }
 
   .catalog-filters::-webkit-scrollbar {
