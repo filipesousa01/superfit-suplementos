@@ -1,0 +1,272 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+
+:root {
+  --bg-primary: #1A1C1E; /* Neutral */
+  --bg-secondary: #545B64; /* Secondary */
+  --text-primary: #CBD5E0; /* Tertiary */
+  --text-secondary: #A8B2BD; /* Primary */
+  --accent: #A8B2BD; /* Primary as Accent */
+  --accent-hover: #CBD5E0; /* Tertiary for hover */
+  --primary-btn: #006494; /* Button Color */
+  --primary-btn-hover: #004b70; /* Button Hover Color */
+  --card-bg: rgba(26, 28, 30, 0.7); /* Neutral semi-transparent */
+  --glass-border: rgba(168, 178, 189, 0.15); /* Primary semi-transparent */
+  --success: #10b981;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Background image with blur effect */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: url('/bg-hero.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(8px) brightness(0.4);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-secondary);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+.glass {
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+}
+
+.btn-primary {
+  background: var(--primary-btn);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-primary:hover {
+  background: var(--primary-btn-hover);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--glass-border);
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Responsive Classes */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+  width: 100%;
+  max-width: 1280px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: center;
+}
+
+.hero-trust-indicators {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  gap: 1.5rem;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .hero-grid {
+    grid-template-columns: 1fr 1fr;
+    text-align: left;
+  }
+  
+  .hero-buttons {
+    justify-content: flex-start;
+  }
+  
+  .hero-trust-indicators {
+    justify-content: flex-start;
+  }
+}
+
+/* ===== MOBILE (< 768px) ===== */
+@media (max-width: 767px) {
+  .hero-text-content {
+    align-items: center !important;
+    text-align: center;
+  }
+  
+  .container {
+    padding: 0 1rem;
+  }
+  
+  .catalog-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  
+  .btn-primary, .btn-secondary {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  /* Header mobile: barra de pesquisa vai para segunda linha */
+  .header-search {
+    order: 3 !important;
+    flex-basis: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .header-logo img {
+    height: 38px !important;
+  }
+
+  /* Hero mobile: esconde os produtos secundários, reduz tamanho */
+  .hero-product-secondary {
+    display: none !important;
+  }
+
+  .hero-product-center {
+    max-width: 200px !important;
+  }
+
+  .hero-showcase {
+    height: 280px !important;
+  }
+
+  /* Catálogo: botões de filtro menores e scrolláveis */
+  .catalog-filters {
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 0.5rem;
+    justify-content: flex-start !important;
+  }
+
+  .catalog-filters::-webkit-scrollbar {
+    display: none;
+  }
+
+  .catalog-filters .btn-primary,
+  .catalog-filters .btn-secondary {
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  /* Cards: texto menor, imagem menor */
+  .product-card-image {
+    height: 140px !important;
+    padding: 0.5rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .product-card-name {
+    font-size: 0.85rem !important;
+  }
+
+  .product-card-desc {
+    font-size: 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .product-card-price {
+    font-size: 1.15rem !important;
+  }
+}
+
+/* ===== SMALL MOBILE (< 400px) ===== */
+@media (max-width: 400px) {
+  .catalog-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  .hero-showcase {
+    height: 220px !important;
+  }
+
+  .hero-product-center {
+    max-width: 160px !important;
+  }
+}
