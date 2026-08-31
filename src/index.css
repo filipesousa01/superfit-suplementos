@@ -195,9 +195,9 @@ body::before {
     height: 38px !important;
   }
 
-  /* Hero mobile: esconde os produtos secundários, reduz tamanho */
+  /* Hero mobile: reduz produtos secundários em vez de esconder */
   .hero-product-secondary {
-    display: none !important;
+    max-width: 110px !important;
   }
 
   .hero-product-center {
