@@ -70,15 +70,17 @@ const ProductCard = ({ product }) => {
       </motion.div>
       
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <span style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>
-          {product.category}
-        </span>
-        <h3 className="product-card-name" style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem', lineHeight: 1.3, fontFamily: "'Montserrat', sans-serif" }}>
-          {product.name}
-        </h3>
-        <p className="product-card-desc" style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '1.2rem', flex: 1 }}>
-          {product.description}
-        </p>
+        <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', flex: 1 }}>
+          <span style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem' }}>
+            {product.category}
+          </span>
+          <h3 className="product-card-name" style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem', lineHeight: 1.3, fontFamily: "'Montserrat', sans-serif" }}>
+            {product.name}
+          </h3>
+          <p className="product-card-desc" style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '1.2rem' }}>
+            {product.description}
+          </p>
+        </div>
 
         {product.flavors && product.flavors.length > 0 && (
           <div style={{ marginBottom: '1rem' }}>
