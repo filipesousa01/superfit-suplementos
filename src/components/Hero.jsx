@@ -149,29 +149,12 @@ const Hero = () => {
             }}
           >
             <motion.div style={{ 
-              display: 'inline-block', 
-              marginRight: '0.3em',
-              background: 'linear-gradient(to right, #ffffff, #A8B2BD)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
-            }}>
-              {"EXPLODA".split("").map((char, index) => (
-                <motion.span 
-                  key={index} 
-                  variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
-                  style={{ display: 'inline-block' }}
-                >
-                  {char}
-                </motion.span>
-              ))}
-            </motion.div>
-            <motion.div style={{ 
               display: 'inline-block',
               background: 'linear-gradient(to right, #ffffff, #A8B2BD)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}>
-              {"SUA".split("").map((char, index) => (
+              {"SUPERFIT".split("").map((char, index) => (
                 <motion.span 
                   key={index} 
                   variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
@@ -185,7 +168,7 @@ const Hero = () => {
             <motion.span 
               variants={{ hidden: { opacity: 0, scale: 0.8, rotate: -2 }, visible: { opacity: 1, scale: 1, rotate: 0 } }}
               transition={{ type: 'spring', damping: 10, stiffness: 100 }}
-              style={{ display: 'inline-block' }}
+              style={{ display: 'inline-block', fontSize: 'clamp(1.2rem, 3.5vw, 2.5rem)' }}
             >
               <motion.span
                 animate={{ 
@@ -204,7 +187,7 @@ const Hero = () => {
                   display: 'inline-block'
                 }}
               >
-                PERFORMANCE
+                TOP 1 EM PREÇO E QUALIDADE
               </motion.span>
             </motion.span>
           </motion.h2>
