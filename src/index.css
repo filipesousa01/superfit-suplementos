@@ -117,10 +117,26 @@ body::before {
 .hero-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 3rem;
+  grid-template-areas: 
+    "top"
+    "showcase"
+    "bottom";
+  gap: 1.5rem;
   align-items: center;
   width: 100%;
   max-width: 1280px;
+}
+
+.hero-text-top {
+  grid-area: top;
+}
+
+.hero-showcase {
+  grid-area: showcase;
+}
+
+.hero-text-bottom {
+  grid-area: bottom;
 }
 
 .hero-buttons {
@@ -151,7 +167,19 @@ body::before {
 @media (min-width: 768px) {
   .hero-grid {
     grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+      "top showcase"
+      "bottom showcase";
+    gap: 1rem 3rem;
     text-align: left;
+  }
+  
+  .hero-text-top {
+    align-self: end;
+  }
+
+  .hero-text-bottom {
+    align-self: start;
   }
   
   .hero-buttons {
@@ -165,9 +193,13 @@ body::before {
 
 /* ===== MOBILE (< 768px) ===== */
 @media (max-width: 767px) {
-  .hero-text-content {
+  .hero-text-top, .hero-text-bottom {
     align-items: center !important;
     text-align: center;
+  }
+  
+  .hero-small-products {
+    justify-content: center;
   }
   
   .container {

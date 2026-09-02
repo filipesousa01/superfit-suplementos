@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { mockProducts } from '../data/mockProducts';
 import ProductCard from './ProductCard';
 import { motion } from 'framer-motion';
 
-const Catalog = ({ searchQuery = '' }) => {
+const Catalog = ({ searchQuery = '', products = [] }) => {
   const [activeCategory, setActiveCategory] = useState('Todos');
   
-  const categories = ['Todos', ...new Set(mockProducts.map(p => p.category))];
+  const categories = ['Todos', ...new Set(products.map(p => p.category))];
 
-  const filteredProducts = mockProducts.filter(p => {
+  const filteredProducts = products.filter(p => {
     const matchesCategory = activeCategory === 'Todos' || p.category === activeCategory;
     const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           p.description.toLowerCase().includes(searchQuery.toLowerCase());

@@ -26,6 +26,20 @@ const heroProducts = [
     weight: '300g',
     role: 'right',
   },
+  {
+    id: 4,
+    image: '/produtos/whey-growth-removebg-preview.png',
+    name: 'Whey Protein',
+    brand: 'Growth',
+    weight: '1kg',
+  },
+  {
+    id: 5,
+    image: '/produtos/wheymax-removebg-preview.png',
+    name: 'Whey Protein',
+    brand: 'Max Titanium',
+    weight: '900g',
+  },
 ];
 
 const Hero = () => {
@@ -90,8 +104,8 @@ const Hero = () => {
         zIndex: 10, 
       }}>
         
-        {/* Text Content */}
-        <div className="hero-text-content" style={{
+        {/* Top Text Content */}
+        <div className="hero-text-top" style={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
@@ -127,7 +141,7 @@ const Hero = () => {
               letterSpacing: '0.1em',
               color: 'var(--accent)',
             }}>
-              QUALIDADE PREMIUM GARANTIDA
+              SUPERFIT
             </span>
           </motion.div>
 
@@ -139,148 +153,63 @@ const Hero = () => {
               visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.4 } }
             }}
             style={{
-              fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+              fontSize: 'clamp(2.5rem, 6.5vw, 5.5rem)',
               fontWeight: 900,
               fontFamily: "'Montserrat', sans-serif",
-              lineHeight: 1.05,
+              lineHeight: 1.0,
               letterSpacing: '-0.02em',
               marginBottom: '1rem',
               textTransform: 'uppercase',
             }}
           >
             <motion.div style={{ 
-              display: 'inline-block',
+              display: 'block',
               background: 'linear-gradient(to right, #ffffff, #A8B2BD)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}>
-              {"SUPERFIT".split("").map((char, index) => (
-                <motion.span 
-                  key={index} 
-                  variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
-                  style={{ display: 'inline-block' }}
-                >
-                  {char}
-                </motion.span>
-              ))}
-            </motion.div>
-            <br/>
-            <motion.span 
-              variants={{ hidden: { opacity: 0, scale: 0.8, rotate: -2 }, visible: { opacity: 1, scale: 1, rotate: 0 } }}
-              transition={{ type: 'spring', damping: 10, stiffness: 100 }}
-              style={{ display: 'inline-block', fontSize: 'clamp(1.2rem, 3.5vw, 2.5rem)' }}
-            >
-              <motion.span
-                animate={{ 
-                  textShadow: [
-                    '0 0 15px rgba(86, 204, 242, 0.4)', 
-                    '0 0 35px rgba(86, 204, 242, 0.9)', 
-                    '0 0 15px rgba(86, 204, 242, 0.4)'
-                  ],
-                  scale: [1, 1.02, 1]
-                }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                style={{ 
-                  color: '#56CCF2', 
-                  WebkitTextFillColor: '#56CCF2',
-                  fontStyle: 'italic',
-                  display: 'inline-block'
-                }}
-              >
-                TOP 1 EM PREÇO E QUALIDADE
+              <motion.span variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} style={{ display: 'inline-block' }}>
+                TOP 1 EM
               </motion.span>
-            </motion.span>
+            </motion.div>
+            <motion.div style={{ 
+              display: 'block',
+              background: 'linear-gradient(to right, #ffffff, #A8B2BD)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}>
+              <motion.span variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} style={{ display: 'inline-block' }}>
+                PREÇO E
+              </motion.span>
+            </motion.div>
+            <motion.div style={{ display: 'block' }}>
+              <motion.span 
+                variants={{ hidden: { opacity: 0, scale: 0.8, rotate: -2 }, visible: { opacity: 1, scale: 1, rotate: 0 } }}
+                transition={{ type: 'spring', damping: 10, stiffness: 100 }}
+                style={{ display: 'inline-block' }}
+              >
+                <motion.span
+                  animate={{ 
+                    textShadow: [
+                      '0 0 15px rgba(86, 204, 242, 0.4)', 
+                      '0 0 35px rgba(86, 204, 242, 0.9)', 
+                      '0 0 15px rgba(86, 204, 242, 0.4)'
+                    ],
+                    scale: [1, 1.02, 1]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                  style={{ 
+                    color: '#56CCF2', 
+                    WebkitTextFillColor: '#56CCF2',
+                    fontStyle: 'italic',
+                    display: 'inline-block'
+                  }}
+                >
+                  QUALIDADE
+                </motion.span>
+              </motion.span>
+            </motion.div>
           </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            style={{
-              fontSize: 'clamp(1rem, 2vw, 1.125rem)',
-              lineHeight: 1.6,
-              color: 'var(--text-secondary)',
-              marginBottom: '2rem',
-              maxWidth: '500px',
-            }}
-          >
-            Creatinas puras das melhores marcas do mercado. Desenvolvidas para máxima absorção, força explosiva e recuperação muscular rápida. Sem misturas. Sem limites.
-          </motion.p>
-
-          {/* Action Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="hero-buttons"
-          >
-            <motion.a 
-              href="#catalog" 
-              whileTap={{ scale: 0.95 }}
-              style={{
-                backgroundColor: 'var(--primary-btn)',
-                color: '#fff',
-                fontSize: '0.875rem',
-                fontWeight: 700,
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase',
-                padding: '1rem 2rem',
-                borderRadius: '0.5rem',
-                textDecoration: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                boxShadow: '0 0 15px rgba(0, 100, 148, 0.4)',
-                transition: 'background-color 0.3s',
-              }}
-            >
-              Comprar Agora
-            </motion.a>
-            <motion.a 
-              href="#catalog" 
-              whileTap={{ scale: 0.95 }}
-              style={{
-                backgroundColor: 'transparent',
-                border: '2px solid var(--primary-btn)',
-                color: 'var(--primary-btn)',
-                fontSize: '0.875rem',
-                fontWeight: 700,
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase',
-                padding: '1rem 2rem',
-                borderRadius: '0.5rem',
-                textDecoration: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                transition: 'background-color 0.3s',
-              }}
-            >
-              Ver Detalhes
-            </motion.a>
-          </motion.div>
-
-          {/* Trust Indicators */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1 }}
-            className="hero-trust-indicators"
-          >
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <span style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)' }}>100%</span>
-              <span style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Puras</span>
-            </div>
-            <div style={{ width: '1px', backgroundColor: 'rgba(255,255,255,0.1)' }} />
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <span style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)' }}>3g - 5g</span>
-              <span style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Por Porção</span>
-            </div>
-            <div style={{ width: '1px', backgroundColor: 'rgba(255,255,255,0.1)' }} />
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <span style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)' }}>Zero</span>
-              <span style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Aditivos</span>
-            </div>
-          </motion.div>
         </div>
 
         {/* Product Showcase (3D Perspective - Stitch Style) */}
@@ -391,6 +320,102 @@ const Hero = () => {
             />
           </motion.div>
 
+        </div>
+
+        {/* Bottom Text Content */}
+        <div className="hero-text-bottom" style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          zIndex: 20,
+        }}>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            style={{
+              fontSize: 'clamp(1.1rem, 2vw, 1.25rem)',
+              lineHeight: 1.6,
+              color: 'var(--text-primary)',
+              fontWeight: 600,
+              marginBottom: '2rem',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em'
+            }}
+          >
+            ENTREGAS BOM JARDIM E REGIÃO
+          </motion.p>
+
+          {/* Action Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            className="hero-buttons"
+          >
+            <motion.a 
+              href="#catalog" 
+              whileTap={{ scale: 0.95 }}
+              style={{
+                backgroundColor: 'var(--primary-btn)',
+                color: '#fff',
+                fontSize: '1rem',
+                fontWeight: 800,
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+                padding: '1.2rem 3rem',
+                borderRadius: '999px',
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem',
+                boxShadow: '0 0 20px rgba(0, 100, 148, 0.5)',
+                transition: 'background-color 0.3s',
+                width: '100%'
+              }}
+            >
+              Comprar
+            </motion.a>
+          </motion.div>
+
+          {/* Small Product Images */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 1 }}
+            className="hero-small-products"
+            style={{
+              display: 'flex',
+              gap: '1rem',
+              marginTop: '2.5rem',
+              paddingTop: '1.5rem',
+              borderTop: '1px solid rgba(255,255,255,0.1)'
+            }}
+          >
+            {heroProducts.map((product) => (
+              <div 
+                key={product.id}
+                style={{
+                  width: '60px',
+                  height: '60px',
+                  borderRadius: '12px',
+                  backgroundColor: 'rgba(255,255,255,0.05)',
+                  border: '1px solid var(--glass-border)',
+                  padding: '0.5rem',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <img 
+                  src={product.image} 
+                  alt={product.name} 
+                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                />
+              </div>
+            ))}
+          </motion.div>
         </div>
 
       </div>

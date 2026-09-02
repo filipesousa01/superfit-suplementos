@@ -8,7 +8,7 @@ import Cart from './components/Cart';
 import { CartProvider, useCart } from './context/CartContext';
 
 // Header component needs to consume CartContext to show item count and toggle cart
-const Header = ({ searchQuery, setSearchQuery }) => {
+const Header = ({ searchQuery, setSearchQuery, currentView, setCurrentView }) => {
   const { cartItems, toggleCart } = useCart();
   const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
@@ -89,50 +89,79 @@ const Header = ({ searchQuery, setSearchQuery }) => {
           />
         </div>
         
-        <motion.button 
-          onClick={toggleCart}
-          whileTap={{ scale: 0.9 }}
-          style={{ 
-            background: 'var(--bg-secondary)', 
-            border: '1px solid var(--glass-border)',
-            color: 'white',
-            padding: '0.5rem 1rem',
-            borderRadius: '999px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            cursor: 'pointer',
-            transition: 'all 0.2s',
-            flexShrink: 0
-          }}
-          onMouseOver={e => e.currentTarget.style.background = 'var(--primary-btn)'}
-          onMouseOut={e => e.currentTarget.style.background = 'var(--bg-secondary)'}
-        >
-          <ShoppingBag size={20} />
-          {totalItems > 0 && (
-            <span style={{ 
-              background: 'white', 
-              color: 'var(--bg-primary)', 
-              fontWeight: 800,
-              borderRadius: '50%',
-              width: '24px',
-              height: '24px',
+        <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
+          <motion.button 
+            onClick={() => setCurrentView(currentView === 'store' ? 'admin' : 'store')}
+            whileTap={{ scale: 0.9 }}
+            style={{ 
+              background: 'var(--bg-secondary)', 
+              border: '1px solid var(--glass-border)',
+              color: 'white',
+              padding: '0.5rem 1rem',
+              borderRadius: '999px',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '0.8rem'
-            }}>
-              {totalItems}
-            </span>
-          )}
+              gap: '0.5rem',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}
+            onMouseOver={e => e.currentTarget.style.background = 'var(--primary-btn)'}
+            onMouseOut={e => e.currentTarget.style.background = 'var(--bg-secondary)'}
+          >
+            <span style={{ fontWeight: 600 }}>{currentView === 'store' ? 'Vendedor' : 'Voltar à Loja'}</span>
           </motion.button>
+
+          <motion.button 
+            onClick={toggleCart}
+            whileTap={{ scale: 0.9 }}
+            style={{ 
+              background: 'var(--bg-secondary)', 
+              border: '1px solid var(--glass-border)',
+              color: 'white',
+              padding: '0.5rem 1rem',
+              borderRadius: '999px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}
+            onMouseOver={e => e.currentTarget.style.background = 'var(--primary-btn)'}
+            onMouseOut={e => e.currentTarget.style.background = 'var(--bg-secondary)'}
+          >
+            <ShoppingBag size={20} />
+            {totalItems > 0 && (
+              <span style={{ 
+                background: 'white', 
+                color: 'var(--bg-primary)', 
+                fontWeight: 800,
+                borderRadius: '50%',
+                width: '24px',
+                height: '24px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '0.8rem'
+              }}>
+                {totalItems}
+              </span>
+            )}
+          </motion.button>
+        </div>
       </div>
     </header>
   );
 };
 
+import AdminSimple from './components/AdminSimple';
+import Login from './components/Login';
+import { mockProducts } from './data/mockProducts';
+
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentView, setCurrentView] = useState('store'); // 'store' or 'admin'
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [products, setProducts] = useState(mockProducts);
 
   useEffect(() => {
     WebFont.load({
@@ -145,14 +174,27 @@ const App = () => {
   return (
     <CartProvider>
       <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', fontFamily: "'Inter', sans-serif" }}>
-        <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        <Header 
+          searchQuery={searchQuery} 
+          setSearchQuery={setSearchQuery} 
+          currentView={currentView}
+          setCurrentView={setCurrentView}
+        />
         
         <main style={{ flex: 1, paddingTop: '70px' }}>
-          <Hero />
-          <Catalog searchQuery={searchQuery} />
+          {currentView === 'store' ? (
+            <>
+              <Hero />
+              <Catalog searchQuery={searchQuery} products={products} />
+            </>
+          ) : isAuthenticated ? (
+            <AdminSimple products={products} setProducts={setProducts} />
+          ) : (
+            <Login onLogin={() => setIsAuthenticated(true)} />
+          )}
         </main>
         
-        <Cart />
+        {currentView === 'store' && <Cart />}
         
         <footer style={{
           background: 'var(--bg-secondary)',
