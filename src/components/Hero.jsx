@@ -153,7 +153,7 @@ const Hero = () => {
               visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.4 } }
             }}
             style={{
-              fontSize: 'clamp(2.5rem, 6.5vw, 5.5rem)',
+              fontSize: 'clamp(1.8rem, 8vw, 5.5rem)',
               fontWeight: 900,
               fontFamily: "'Montserrat', sans-serif",
               lineHeight: 1.0,
@@ -390,15 +390,17 @@ const Hero = () => {
               gap: '1rem',
               marginTop: '2.5rem',
               paddingTop: '1.5rem',
-              borderTop: '1px solid rgba(255,255,255,0.1)'
+              borderTop: '1px solid rgba(255,255,255,0.1)',
+              flexWrap: 'wrap',
+              justifyContent: 'center'
             }}
           >
             {heroProducts.map((product) => (
               <div 
                 key={product.id}
                 style={{
-                  width: '60px',
-                  height: '60px',
+                  width: 'clamp(45px, 12vw, 60px)',
+                  height: 'clamp(45px, 12vw, 60px)',
                   borderRadius: '12px',
                   backgroundColor: 'rgba(255,255,255,0.05)',
                   border: '1px solid var(--glass-border)',

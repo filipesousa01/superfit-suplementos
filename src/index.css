@@ -229,15 +229,15 @@ body::before {
 
   /* Hero mobile: reduz produtos secundários em vez de esconder */
   .hero-product-secondary {
-    max-width: 110px !important;
+    max-width: 80px !important;
   }
 
   .hero-product-center {
-    max-width: 200px !important;
+    max-width: 160px !important;
   }
 
   .hero-showcase {
-    height: 280px !important;
+    height: 240px !important;
   }
 
   .catalog-filters {
@@ -299,10 +299,10 @@ body::before {
   }
 
   .hero-showcase {
-    height: 220px !important;
+    height: 180px !important;
   }
 
   .hero-product-center {
-    max-width: 160px !important;
+    max-width: 130px !important;
   }
 }
