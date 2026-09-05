@@ -50,7 +50,7 @@ const Cart = () => {
     if (formData.deliveryMethod === 'entrega') {
       text += `*Endereço:* ${formData.street}, ${formData.number} - ${formData.neighborhood}%0A`;
     }
-    const paymentMap = { pix: 'PIX', cartao: 'Cartão', dinheiro: 'Dinheiro' };
+    const paymentMap = { pix: 'PIX', cartao: 'Cartão (até 6x sem juros)', dinheiro: 'Dinheiro' };
     text += `*Pagamento:* ${paymentMap[formData.paymentMethod]}%0A%0A`;
 
     // Resumo
@@ -265,7 +265,7 @@ const Cart = () => {
                       style={selectStyle}
                     >
                       <option value="pix" style={{ background: '#1A1C1E' }}>PIX</option>
-                      <option value="cartao" style={{ background: '#1A1C1E' }}>Cartão (Crédito/Débito)</option>
+                      <option value="cartao" style={{ background: '#1A1C1E' }}>Cartão (em até 6x sem juros)</option>
                       <option value="dinheiro" style={{ background: '#1A1C1E' }}>Dinheiro</option>
                     </select>
                   </div>
