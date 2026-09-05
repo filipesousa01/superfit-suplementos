@@ -176,7 +176,7 @@ const AdminSimple = ({ products, setProducts }) => {
 
   return (
     <div className="container" style={{ padding: '2rem 1.5rem' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+      <div className="admin-header">
         <div>
           <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Painel do Vendedor</h1>
           <p style={{ color: 'var(--text-secondary)' }}>Gerencie seus produtos e aplique descontos facilmente.</p>
@@ -200,7 +200,7 @@ const AdminSimple = ({ products, setProducts }) => {
           <h2 style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Edit3 size={18} /> Adicionar Novo Produto
           </h2>
-          <form onSubmit={handleAddProduct} style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'flex-end' }}>
+          <form onSubmit={handleAddProduct} className="admin-form">
             <div style={{ flex: '1 1 200px' }}>
               <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Nome do Produto</label>
               <input 
@@ -285,7 +285,7 @@ const AdminSimple = ({ products, setProducts }) => {
         </motion.div>
       )}
 
-      <div className="catalog-grid">
+      <div className="admin-catalog-grid">
         {products.map(product => (
           <div key={product.id} className="glass" style={{ borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column', position: 'relative' }}>
             <button 

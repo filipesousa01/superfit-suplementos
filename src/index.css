@@ -306,3 +306,46 @@ body::before {
     max-width: 130px !important;
   }
 }
+
+/* ===== ADMIN PANEL RESPONSIVENESS ===== */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.admin-catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.admin-form {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+@media (max-width: 767px) {
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .admin-header button {
+    width: 100%;
+    margin-top: 1rem;
+  }
+  .admin-catalog-grid {
+    grid-template-columns: 1fr; /* Full width cards for admin to fit all inputs */
+    gap: 1rem;
+  }
+  .admin-form {
+    align-items: stretch;
+  }
+  .admin-form > div {
+    flex-basis: 100% !important;
+  }
+}
