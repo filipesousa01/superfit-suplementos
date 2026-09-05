@@ -63,6 +63,33 @@ const AdminSimple = ({ products, setProducts }) => {
     if (error) console.error("Erro ao atualizar descrição:", error);
   };
 
+  const handlePriceChange = (id, newPriceStr) => {
+    const newBasePrice = parseFloat(newPriceStr) || 0;
+    
+    setProducts(products.map(p => {
+      if (p.id === id) {
+        const discountVal = p.discount || 0;
+        const finalPrice = newBasePrice - (newBasePrice * (discountVal / 100));
+        return { ...p, originalPrice: newBasePrice, price: finalPrice };
+      }
+      return p;
+    }));
+  };
+
+  const handlePriceBlur = async (id) => {
+    const pToUpdate = products.find(p => p.id === id);
+    if (pToUpdate) {
+      const { error } = await supabase
+        .from('products')
+        .update({ 
+          price: pToUpdate.price, 
+          originalprice: pToUpdate.originalPrice 
+        })
+        .eq('id', id);
+      if (error) console.error("Erro ao atualizar preço base:", error);
+    }
+  };
+
   const handleDeleteProduct = async (id) => {
     if (!window.confirm("Tem certeza que deseja excluir este produto?")) return;
     
@@ -278,20 +305,37 @@ const AdminSimple = ({ products, setProducts }) => {
               <h3 style={{ fontSize: '1.1rem', marginBottom: '1rem', flex: 1 }}>{product.name}</h3>
               
               <div style={{ marginBottom: '1rem', padding: '0.8rem', background: 'rgba(0,0,0,0.2)', borderRadius: '8px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.8rem' }}>
                   <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Preço Atual</span>
                   <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--success)' }}>
                     R$ {product.price.toFixed(2)}
                   </span>
                 </div>
-                {product.originalPrice && (
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>Preço Base</span>
-                    <span style={{ fontSize: '0.9rem', textDecoration: 'line-through', color: 'var(--text-secondary)' }}>
-                      R$ {product.originalPrice.toFixed(2)}
-                    </span>
-                  </div>
-                )}
+                
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                    Preço Base (R$)
+                  </span>
+                  <input 
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    value={product.originalPrice || product.price || ''}
+                    onChange={(e) => handlePriceChange(product.id, e.target.value)}
+                    onBlur={() => handlePriceBlur(product.id)}
+                    style={{ 
+                      width: '80px', 
+                      padding: '0.3rem', 
+                      borderRadius: '6px', 
+                      border: '1px solid var(--glass-border)', 
+                      background: 'rgba(255,255,255,0.1)', 
+                      color: 'white', 
+                      textAlign: 'right',
+                      outline: 'none',
+                      fontSize: '0.85rem'
+                    }}
+                  />
+                </div>
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

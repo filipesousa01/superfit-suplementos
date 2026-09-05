@@ -116,9 +116,12 @@ const ProductCard = ({ product }) => {
                 R$ {product.originalPrice.toFixed(2)}
               </span>
             )}
-            <span className="product-card-price" style={{ fontSize: '1.5rem', fontWeight: 800 }}>
+            <span className="product-card-price" style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--success)' }}>
               R$ {product.price.toFixed(2)}
             </span>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
+              em até <strong style={{ color: 'white' }}>6x de R$ {(product.price / 6).toFixed(2)}</strong> sem juros
+            </div>
           </div>
           <motion.button 
             className="btn-primary" 
