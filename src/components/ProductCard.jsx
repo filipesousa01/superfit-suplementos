@@ -37,7 +37,7 @@ const ProductCard = ({ product }) => {
           position: 'relative'
         }}
       >
-        {product.discount && (
+        {product.discount > 0 && (
           <div style={{
             position: 'absolute',
             top: '0',

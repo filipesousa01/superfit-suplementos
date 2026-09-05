@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Plus, Tag, Save, Edit3, Loader } from 'lucide-react';
+import { Plus, Tag, Save, Edit3, Loader, Trash2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 
 const AdminSimple = ({ products, setProducts }) => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [newProduct, setNewProduct] = useState({ name: '', price: '', category: '', imageFile: null, imagePreview: null });
+  const [newProduct, setNewProduct] = useState({ name: '', price: '', category: '', description: '', imageFile: null, imagePreview: null });
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -51,6 +51,26 @@ const AdminSimple = ({ products, setProducts }) => {
     }
   };
 
+  const handleDeleteProduct = async (id) => {
+    if (!window.confirm("Tem certeza que deseja excluir este produto?")) return;
+    
+    // Atualiza otimisticamente
+    const previousProducts = [...products];
+    setProducts(products.filter(p => p.id !== id));
+    
+    // Deleta do Supabase
+    const { error } = await supabase
+      .from('products')
+      .delete()
+      .eq('id', id);
+      
+    if (error) {
+      console.error("Erro ao deletar produto:", error);
+      alert("Não foi possível excluir o produto.");
+      setProducts(previousProducts); // reverte em caso de erro
+    }
+  };
+
   const handleAddProduct = async (e) => {
     e.preventDefault();
     setIsSaving(true);
@@ -86,7 +106,7 @@ const AdminSimple = ({ products, setProducts }) => {
         price: parseFloat(newProduct.price),
         category: newProduct.category || 'Outros',
         image: imageUrl,
-        description: 'Novo produto adicionado pelo vendedor',
+        description: newProduct.description || 'Novo produto adicionado pelo vendedor',
         flavors: []
       };
 
@@ -105,7 +125,7 @@ const AdminSimple = ({ products, setProducts }) => {
         setProducts([{...productToAdd, id: Date.now()}, ...products]);
       }
 
-      setNewProduct({ name: '', price: '', category: '', imageFile: null, imagePreview: null });
+      setNewProduct({ name: '', price: '', category: '', description: '', imageFile: null, imagePreview: null });
       setShowAddForm(false);
     } catch (error) {
       console.error("Erro ao salvar produto:", error);
@@ -178,6 +198,17 @@ const AdminSimple = ({ products, setProducts }) => {
                 <option value="Lanches" style={{ color: 'black' }}>Lanches</option>
               </select>
             </div>
+
+            <div style={{ flex: '1 1 100%' }}>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Pequena Descrição (Opcional)</label>
+              <textarea 
+                value={newProduct.description}
+                onChange={e => setNewProduct({...newProduct, description: e.target.value})}
+                placeholder="Ex: Suplemento ideal para hipertrofia..."
+                rows="2"
+                style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--glass-border)', background: 'rgba(0,0,0,0.2)', color: 'white', outline: 'none', resize: 'vertical' }}
+              />
+            </div>
             
             <div style={{ flex: '1 1 200px', display: 'flex', flexDirection: 'column' }}>
               <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Imagem do Produto</label>
@@ -217,7 +248,14 @@ const AdminSimple = ({ products, setProducts }) => {
 
       <div className="catalog-grid">
         {products.map(product => (
-          <div key={product.id} className="glass" style={{ borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+          <div key={product.id} className="glass" style={{ borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+            <button 
+              onClick={() => handleDeleteProduct(product.id)}
+              style={{ position: 'absolute', top: '0.5rem', left: '0.5rem', zIndex: 10, background: 'rgba(239, 68, 68, 0.8)', color: 'white', border: 'none', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+              title="Excluir produto"
+            >
+              <Trash2 size={16} />
+            </button>
             <div style={{ height: '150px', background: 'rgba(0,0,0,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', position: 'relative' }}>
               <img src={product.image} alt={product.name} style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
               <div style={{ position: 'absolute', top: '0.5rem', right: '0.5rem', background: 'var(--primary-btn)', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>
