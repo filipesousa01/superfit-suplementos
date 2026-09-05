@@ -51,6 +51,18 @@ const AdminSimple = ({ products, setProducts }) => {
     }
   };
 
+  const handleDescriptionChange = (id, newDesc) => {
+    setProducts(products.map(p => p.id === id ? { ...p, description: newDesc } : p));
+  };
+
+  const handleDescriptionBlur = async (id, newDesc) => {
+    const { error } = await supabase
+      .from('products')
+      .update({ description: newDesc })
+      .eq('id', id);
+    if (error) console.error("Erro ao atualizar descrição:", error);
+  };
+
   const handleDeleteProduct = async (id) => {
     if (!window.confirm("Tem certeza que deseja excluir este produto?")) return;
     
@@ -301,6 +313,27 @@ const AdminSimple = ({ products, setProducts }) => {
                     color: 'white', 
                     textAlign: 'center',
                     outline: 'none'
+                  }}
+                />
+              </div>
+
+              <div style={{ marginTop: '0.8rem' }}>
+                <textarea 
+                  value={product.description || ''}
+                  onChange={(e) => handleDescriptionChange(product.id, e.target.value)}
+                  onBlur={(e) => handleDescriptionBlur(product.id, e.target.value)}
+                  placeholder="Descrição do produto..."
+                  rows="2"
+                  style={{ 
+                    width: '100%', 
+                    padding: '0.6rem', 
+                    borderRadius: '6px', 
+                    border: '1px solid var(--glass-border)', 
+                    background: 'rgba(255,255,255,0.05)', 
+                    color: 'white', 
+                    outline: 'none',
+                    fontSize: '0.85rem',
+                    resize: 'vertical'
                   }}
                 />
               </div>
