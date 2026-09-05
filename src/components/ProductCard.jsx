@@ -112,14 +112,14 @@ const ProductCard = ({ product }) => {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 'auto' }}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {product.originalPrice && (
-              <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', textDecoration: 'line-through', marginBottom: '-0.2rem' }}>
+              <span style={{ fontSize: '0.9rem', textDecoration: 'line-through', color: 'var(--text-secondary)', marginRight: '0.5rem', whiteSpace: 'nowrap' }}>
                 R$ {product.originalPrice.toFixed(2)}
               </span>
             )}
-            <span className="product-card-price" style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--success)' }}>
+            <span className="product-card-price" style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--success)', whiteSpace: 'nowrap' }}>
               R$ {product.price.toFixed(2)}
             </span>
-            <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.2rem', whiteSpace: 'nowrap' }}>
               em até <strong style={{ color: 'white' }}>6x de R$ {(product.price / 6).toFixed(2)}</strong> sem juros
             </div>
           </div>

@@ -306,8 +306,8 @@ const AdminSimple = ({ products, setProducts }) => {
               
               <div style={{ marginBottom: '1rem', padding: '0.8rem', background: 'rgba(0,0,0,0.2)', borderRadius: '8px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.8rem' }}>
-                  <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Preço Atual</span>
-                  <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--success)' }}>
+                  <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', whiteSpace: 'nowrap' }}>Preço Atual</span>
+                  <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--success)', whiteSpace: 'nowrap' }}>
                     R$ {product.price.toFixed(2)}
                   </span>
                 </div>
