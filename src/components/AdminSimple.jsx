@@ -1,26 +1,30 @@
 import React, { useState } from 'react';
-import { Plus, Tag, Save, Edit3 } from 'lucide-react';
+import { Plus, Tag, Save, Edit3, Loader } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { supabase } from '../lib/supabase';
 
 const AdminSimple = ({ products, setProducts }) => {
   const [showAddForm, setShowAddForm] = useState(false);
-  const [newProduct, setNewProduct] = useState({ name: '', price: '', category: '', image: null });
+  const [isSaving, setIsSaving] = useState(false);
+  const [newProduct, setNewProduct] = useState({ name: '', price: '', category: '', imageFile: null, imagePreview: null });
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setNewProduct(prev => ({ ...prev, image: reader.result }));
+        setNewProduct(prev => ({ ...prev, imagePreview: reader.result, imageFile: file }));
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleDiscountChange = (id, newDiscount) => {
+  const handleDiscountChange = async (id, newDiscount) => {
+    const discountVal = parseInt(newDiscount) || 0;
+    
+    // Atualiza localmente primeiro para sensação de realtime (Optimistic UI)
     const updated = products.map(p => {
       if (p.id === id) {
-        const discountVal = parseInt(newDiscount) || 0;
         const originalPrice = p.originalPrice || p.price;
         const finalPrice = originalPrice - (originalPrice * (discountVal / 100));
         return { ...p, discount: discountVal, price: finalPrice, originalPrice };
@@ -28,23 +32,87 @@ const AdminSimple = ({ products, setProducts }) => {
       return p;
     });
     setProducts(updated);
+
+    // Encontra o produto atualizado para mandar pro banco
+    const pToUpdate = updated.find(p => p.id === id);
+
+    // Atualiza no banco
+    if (pToUpdate) {
+      const { error } = await supabase
+        .from('products')
+        .update({ 
+          discount: pToUpdate.discount, 
+          price: pToUpdate.price, 
+          originalPrice: pToUpdate.originalPrice 
+        })
+        .eq('id', id);
+        
+      if (error) console.error("Erro ao atualizar desconto:", error);
+    }
   };
 
-  const handleAddProduct = (e) => {
+  const handleAddProduct = async (e) => {
     e.preventDefault();
-    const newId = Math.max(...products.map(p => p.id)) + 1;
-    const productToAdd = {
-      id: newId,
-      name: newProduct.name,
-      price: parseFloat(newProduct.price),
-      category: newProduct.category || 'Outros',
-      image: newProduct.image || '/logo.png', // Uses uploaded image or fallback
-      description: 'Novo produto adicionado pelo vendedor',
-      flavors: []
-    };
-    setProducts([productToAdd, ...products]);
-    setNewProduct({ name: '', price: '', category: '', image: null });
-    setShowAddForm(false);
+    setIsSaving(true);
+    
+    try {
+      let imageUrl = '/logo.png'; // Fallback
+
+      // 1. Upload da Imagem pro Supabase Storage
+      if (newProduct.imageFile) {
+        const fileExt = newProduct.imageFile.name.split('.').pop();
+        const fileName = `${Date.now()}.${fileExt}`;
+        const filePath = `${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('product-images')
+          .upload(filePath, newProduct.imageFile);
+
+        if (uploadError) {
+          throw uploadError;
+        }
+
+        // Pega a URL pública
+        const { data: publicUrlData } = supabase.storage
+          .from('product-images')
+          .getPublicUrl(filePath);
+          
+        imageUrl = publicUrlData.publicUrl;
+      }
+
+      // 2. Insere no Banco de Dados
+      const productToAdd = {
+        name: newProduct.name,
+        price: parseFloat(newProduct.price),
+        category: newProduct.category || 'Outros',
+        image: imageUrl,
+        description: 'Novo produto adicionado pelo vendedor',
+        flavors: []
+      };
+
+      const { data, error } = await supabase
+        .from('products')
+        .insert([productToAdd])
+        .select();
+
+      if (error) throw error;
+
+      // 3. Atualiza a lista na tela
+      if (data && data.length > 0) {
+        setProducts([data[0], ...products]);
+      } else {
+        // Fallback pro otimista caso select falhe mas insert funcione
+        setProducts([{...productToAdd, id: Date.now()}, ...products]);
+      }
+
+      setNewProduct({ name: '', price: '', category: '', imageFile: null, imagePreview: null });
+      setShowAddForm(false);
+    } catch (error) {
+      console.error("Erro ao salvar produto:", error);
+      alert("Erro ao salvar produto. Verifique se a tabela 'products' e o bucket 'product-images' existem e são públicos.");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -129,17 +197,18 @@ const AdminSimple = ({ products, setProducts }) => {
                     fontSize: '0.85rem'
                   }}
                 />
-                {newProduct.image && (
+                {newProduct.imagePreview && (
                   <div style={{ width: '40px', height: '40px', borderRadius: '8px', background: 'rgba(0,0,0,0.4)', overflow: 'hidden', flexShrink: 0 }}>
-                    <img src={newProduct.image} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={newProduct.imagePreview} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
                 )}
               </div>
             </div>
 
             <div style={{ flexBasis: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '0.5rem' }}>
-              <button type="submit" className="btn-primary" style={{ padding: '0.75rem 2rem' }}>
-                <Save size={18} /> Salvar Produto
+              <button type="submit" className="btn-primary" style={{ padding: '0.75rem 2rem', opacity: isSaving ? 0.7 : 1 }} disabled={isSaving}>
+                {isSaving ? <Loader size={18} className="animate-spin" /> : <Save size={18} />}
+                {isSaving ? 'Salvando...' : 'Salvar Produto'}
               </button>
             </div>
           </form>

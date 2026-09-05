@@ -156,12 +156,14 @@ const Header = ({ searchQuery, setSearchQuery, currentView, setCurrentView }) =>
 import AdminSimple from './components/AdminSimple';
 import Login from './components/Login';
 import { mockProducts } from './data/mockProducts';
+import { supabase } from './lib/supabase';
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentView, setCurrentView] = useState('store'); // 'store' or 'admin'
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [products, setProducts] = useState(mockProducts);
+  const [products, setProducts] = useState([]); // Inicia vazio, busca do supabase
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     WebFont.load({
@@ -169,7 +171,33 @@ const App = () => {
         families: ['Montserrat:700,800,900', 'Inter:400,600,700']
       }
     });
+
+    fetchProducts();
   }, []);
+
+  const fetchProducts = async () => {
+    try {
+      setIsLoading(true);
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .order('id', { ascending: false });
+
+      if (error) throw error;
+
+      if (data && data.length > 0) {
+        setProducts(data);
+      } else {
+        // Se a tabela estiver vazia (ainda não povoada), usa os dados de mock para não ficar vazio
+        setProducts(mockProducts);
+      }
+    } catch (error) {
+      console.error("Erro ao buscar produtos do Supabase:", error.message);
+      setProducts(mockProducts); // Fallback em caso de erro de conexão
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <CartProvider>
