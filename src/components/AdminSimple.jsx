@@ -43,7 +43,7 @@ const AdminSimple = ({ products, setProducts }) => {
         .update({ 
           discount: pToUpdate.discount, 
           price: pToUpdate.price, 
-          originalPrice: pToUpdate.originalPrice 
+          originalprice: pToUpdate.originalPrice || pToUpdate.originalprice 
         })
         .eq('id', id);
         

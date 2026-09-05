@@ -186,7 +186,12 @@ const App = () => {
       if (error) throw error;
 
       if (data && data.length > 0) {
-        setProducts(data);
+        // Map originalprice back to originalPrice for the frontend compatibility
+        const mappedData = data.map(p => ({
+          ...p,
+          originalPrice: p.originalprice || p.originalPrice
+        }));
+        setProducts(mappedData);
       } else {
         // Se a tabela estiver vazia (ainda não povoada), usa os dados de mock para não ficar vazio
         setProducts(mockProducts);
